@@ -1,0 +1,16 @@
+{
+  "auth": {
+    "jwtSecret": "your-super-secret-jwt-key-change-this-in-production",
+    "tokenExpiry": "24h",
+    "users": [
+      {
+        "username": "admin",
+        "password": "admin123",
+        "role": "admin"
+      }
+    ]
+  },
+  "server": {
+    "port": 3006
+  }
+}
