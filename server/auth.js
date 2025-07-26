@@ -57,44 +57,9 @@ const verifyToken = (token) => {
   }
 }
 
-// 认证中间件
+// 认证中间件（已禁用，所有接口都不需要认证）
 const authMiddleware = (req, res, next) => {
-  // 跳过不需要认证的接口
-  const publicPaths = [
-    '/api/auth/login',
-    '/api/docs',
-    '/api/docs/flat'
-  ]
-  
-  // 检查是否是公开路径
-  if (publicPaths.includes(req.path)) {
-    return next()
-  }
-  
-  // 检查是否是获取单个文档的路径 (/api/docs/:path)
-  if (req.path.startsWith('/api/docs/') && req.method === 'GET') {
-    return next()
-  }
-  
-  const authHeader = req.headers.authorization
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ 
-      success: false, 
-      message: '未提供认证token' 
-    })
-  }
-  
-  const token = authHeader.substring(7)
-  const decoded = verifyToken(token)
-  
-  if (!decoded) {
-    return res.status(401).json({ 
-      success: false, 
-      message: 'token无效或已过期' 
-    })
-  }
-  
-  req.user = decoded
+  // 跳过所有认证检查，直接通过
   next()
 }
 
