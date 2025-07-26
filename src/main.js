@@ -10,14 +10,13 @@ import Login from './views/Login.vue'
 import { auth, setupAuthGuard, setupAxiosInterceptors } from './utils/auth.js'
 
 const routes = [
-  { path: '/', redirect: '/docs' },
+  { path: '/', component: DocList },
   { path: '/login', component: Login },
-  { path: '/docs', component: DocList },
   { path: '/editor/:path?', component: DocEditor, props: true }
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/admin/'),
   routes
 })
 

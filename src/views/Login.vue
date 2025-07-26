@@ -116,7 +116,7 @@ const handleLogin = async () => {
       ElMessage.success('登录成功')
       
       // 跳转到文档列表页面
-      const redirect = router.currentRoute.value.query.redirect || '/docs'
+      const redirect = router.currentRoute.value.query.redirect || '/'
       router.push(redirect)
     } else {
       ElMessage.error(response.data.message || '登录失败')

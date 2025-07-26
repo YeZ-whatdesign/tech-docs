@@ -16,7 +16,7 @@
           <el-button type="primary" @click="saveDoc" :icon="Check" :loading="saving">
             保存
           </el-button>
-          <el-button @click="$router.push('/docs')" :icon="Back">
+          <el-button @click="$router.push('/')" :icon="Back">
             返回列表
           </el-button>
         </div>

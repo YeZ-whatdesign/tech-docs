@@ -43,7 +43,7 @@ export function setupAuthGuard(router) {
     if (to.path === '/login') {
       // 如果已经登录，重定向到文档列表
       if (auth.isAuthenticated()) {
-        next('/docs')
+        next('/')
       } else {
         next()
       }

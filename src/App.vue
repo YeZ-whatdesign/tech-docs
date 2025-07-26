@@ -6,22 +6,6 @@
           <h1 class="app-title">
             几何原本 - 技术文档编辑器
           </h1>
-          <div class="header-actions">
-            <el-button 
-              type="primary" 
-              @click="$router.push('/docs')"
-              :icon="List"
-            >
-              文档列表
-            </el-button>
-            <el-button 
-              type="success" 
-              @click="$router.push('/editor')"
-              :icon="EditPen"
-            >
-              新建文档
-            </el-button>
-          </div>
         </div>
       </el-header>
       <el-main class="app-main">
