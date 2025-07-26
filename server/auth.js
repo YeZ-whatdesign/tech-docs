@@ -59,8 +59,20 @@ const verifyToken = (token) => {
 
 // 认证中间件
 const authMiddleware = (req, res, next) => {
-  // 跳过登录接口
-  if (req.path === '/api/auth/login') {
+  // 跳过不需要认证的接口
+  const publicPaths = [
+    '/api/auth/login',
+    '/api/docs',
+    '/api/docs/flat'
+  ]
+  
+  // 检查是否是公开路径
+  if (publicPaths.includes(req.path)) {
+    return next()
+  }
+  
+  // 检查是否是获取单个文档的路径 (/api/docs/:path)
+  if (req.path.startsWith('/api/docs/') && req.method === 'GET') {
     return next()
   }
   
