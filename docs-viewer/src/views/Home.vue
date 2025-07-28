@@ -108,7 +108,7 @@ export default {
     }
 
     const openDoc = (doc) => {
-      router.push(`/doc/${encodeURIComponent(doc.path)}`)
+      router.push(`/docs/doc/${encodeURIComponent(doc.path)}`)
     }
 
     const performSearch = () => {

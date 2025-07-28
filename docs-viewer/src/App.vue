@@ -74,7 +74,7 @@ export default {
     }
 
     const showSidebar = computed(() => {
-      return route.path !== '/'
+      return route.path !== '/docs/'
     })
 
     const activeMenu = computed(() => {
@@ -96,12 +96,12 @@ export default {
 
     const handleNodeClick = (data) => {
       if (data.type === 'file') {
-        router.push(`/doc/${encodeURIComponent(data.path)}`)
+        router.push(`/docs/doc/${encodeURIComponent(data.path)}`)
       }
     }
 
     const handleMenuSelect = (path) => {
-      router.push(`/doc/${encodeURIComponent(path)}`)
+      router.push(`/docs/doc/${encodeURIComponent(path)}`)
     }
 
     onMounted(() => {
