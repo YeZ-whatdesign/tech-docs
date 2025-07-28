@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-  // 移除 base 路径，让应用在根路径运行
+  base: '/docs/',
   plugins: [vue()],
   server: {
     port: 3007,
