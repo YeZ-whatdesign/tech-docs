@@ -11,9 +11,9 @@
         </el-breadcrumb>
       </div>
       <div class="doc-actions">
-        <el-button @click="$router.push('/')" :icon="Back">
+        <!-- <el-button @click="$router.push('/')" :icon="Back">
           返回首页
-        </el-button>
+        </el-button> -->
         <!-- <el-button type="primary" @click="printDoc" :icon="Printer">
           打印
         </el-button> -->
@@ -22,7 +22,7 @@
 
     <div class="doc-content-wrapper">
       <article class="doc-content" v-if="docContent">
-        <div class="doc-title-section">
+        <!-- <div class="doc-title-section">
           <h1 class="doc-main-title">{{ docTitle }}</h1>
           <div class="doc-meta-info">
             <span class="meta-item">
@@ -34,7 +34,7 @@
               大小: {{ formatSize(docSize) }}
             </span>
           </div>
-        </div>
+        </div> -->
         
         <div class="doc-body" v-html="renderedContent"></div>
       </article>
@@ -47,15 +47,21 @@
       <aside class="doc-toc" v-if="tocItems.length > 0">
         <div class="toc-header">
           <h4>目录</h4>
+          <button class="toc-toggle" @click="toggleToc" v-show="isMobile">
+            <el-icon>
+              <ArrowDown v-if="!tocVisible" />
+              <ArrowUp v-if="tocVisible" />
+            </el-icon>
+          </button>
         </div>
-        <nav class="toc-nav">
+        <nav class="toc-nav" v-show="!isMobile || tocVisible">
           <ul class="toc-list">
             <li 
               v-for="item in tocItems" 
               :key="item.id"
               :class="['toc-item', `toc-level-${item.level}`]"
             >
-              <a :href="`#${item.id}`" class="toc-link">
+              <a :href="`#${item.id}`" class="toc-link" @click="onTocClick">
                 {{ item.text }}
               </a>
             </li>
@@ -67,10 +73,10 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { House, Back, Printer, Clock, Document } from '@element-plus/icons-vue'
+import { House, Back, Printer, Clock, Document, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
@@ -83,7 +89,9 @@ export default {
     Back,
     Printer,
     Clock,
-    Document
+    Document,
+    ArrowDown,
+    ArrowUp
   },
   props: {
     path: String
@@ -95,6 +103,30 @@ export default {
     const lastModified = ref(0)
     const docSize = ref(0)
     const tocItems = ref([])
+    const isMobile = ref(false)
+    const tocVisible = ref(false)
+
+    // 检测移动端
+    const checkMobile = () => {
+      isMobile.value = window.innerWidth <= 768
+      if (!isMobile.value) {
+        tocVisible.value = true // 桌面端默认显示目录
+      } else {
+        tocVisible.value = false // 移动端默认隐藏目录
+      }
+    }
+
+    // 切换目录显示
+    const toggleToc = () => {
+      tocVisible.value = !tocVisible.value
+    }
+
+    // 点击目录链接时在移动端自动收起目录
+    const onTocClick = () => {
+      if (isMobile.value) {
+        tocVisible.value = false
+      }
+    }
 
     // 配置marked
     marked.setOptions({
@@ -170,6 +202,26 @@ export default {
 
     onMounted(() => {
       loadDoc()
+      checkMobile()
+      window.addEventListener('resize', checkMobile)
+    })
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', checkMobile)
+    })
+
+    // 监听路由变化，重新加载文档
+    watch(() => route.params.path, (newPath, oldPath) => {
+      if (newPath !== oldPath) {
+        loadDoc()
+      }
+    })
+
+    // 监听props变化
+    watch(() => props.path, (newPath, oldPath) => {
+      if (newPath !== oldPath) {
+        loadDoc()
+      }
     })
 
     return {
@@ -179,12 +231,18 @@ export default {
       docSize,
       tocItems,
       renderedContent,
+      isMobile,
+      tocVisible,
+      toggleToc,
+      onTocClick,
       printDoc,
       formatDate,
       formatSize,
       Back,
       Printer,
-      Clock
+      Clock,
+      ArrowDown,
+      ArrowUp
     }
   }
 }
@@ -211,13 +269,10 @@ export default {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.doc-breadcrumb .el-breadcrumb-item {
-  cursor: pointer;
-}
-
 .doc-breadcrumb .el-breadcrumb__inner {
   color: #6b7280;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .doc-breadcrumb .el-breadcrumb__inner:hover {
@@ -248,6 +303,61 @@ export default {
   border: 1px solid #e1e5e9;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   line-height: 1.7;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* 文档内容元素溢出处理 */
+.doc-content :deep(*) {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.doc-content :deep(pre) {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  -webkit-overflow-scrolling: touch;
+}
+
+.doc-content :deep(code) {
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+.doc-content :deep(table) {
+  width: 100%;
+  table-layout: fixed;
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
+}
+
+.doc-content :deep(img) {
+  max-width: 100%;
+  height: auto;
+}
+
+.doc-content :deep(iframe) {
+  max-width: 100%;
+}
+
+.doc-content :deep(h1),
+.doc-content :deep(h2),
+.doc-content :deep(h3),
+.doc-content :deep(h4),
+.doc-content :deep(h5),
+.doc-content :deep(h6) {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.doc-content :deep(p) {
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .doc-title-section {
@@ -320,12 +430,38 @@ export default {
   background: #9ca3af;
 }
 
+.toc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
 .toc-header h4 {
-  margin: 0 0 16px 0;
+  margin: 0;
   color: #1e2328;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.01em;
+}
+
+.toc-toggle {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.toc-toggle:hover {
+  background: rgba(41, 171, 193, 0.1);
+  color: #29abc1;
+}
+
+.toc-nav {
+  overflow: hidden;
 }
 
 .toc-list {
@@ -389,19 +525,16 @@ export default {
     padding: 16px;
   }
   
-  .doc-header {
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-    padding: 20px;
-  }
-  
   .doc-content {
     padding: 32px 24px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   
   .doc-main-title {
     font-size: 2rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
   
   .doc-meta-info {
@@ -413,27 +546,35 @@ export default {
     margin-bottom: 32px;
     padding-bottom: 20px;
   }
+  
+  .doc-toc {
+    display: none !important;
+  }
 }
 
 @media (max-width: 480px) {
   .doc-view-container {
     padding: 12px;
+    overflow-x: hidden;
   }
   
   .doc-content {
     padding: 24px 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    min-width: 0;
   }
   
   .doc-main-title {
     font-size: 1.75rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
   
   .doc-header {
     padding: 16px;
-  }
-  
-  .doc-toc {
-    padding: 20px;
+    overflow-x: auto;
   }
 }
 

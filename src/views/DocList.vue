@@ -656,4 +656,275 @@ export default {
 :deep(.el-tree-node__expand-icon) {
   color: #C0C4CC;
 }
+
+/* 移动端响应式样式 */
+@media (max-width: 768px) {
+  .doc-list-container {
+    padding: 16px;
+  }
+  
+  .list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .list-header h2 {
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+  
+  .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .header-actions .el-button {
+    flex: 1;
+    min-width: 0;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  
+  .search-bar {
+    margin-bottom: 16px;
+  }
+  
+  .directory-tree {
+    padding: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Element Plus 树组件移动端优化 */
+  :deep(.el-tree) {
+    overflow-x: visible;
+    min-width: 100%;
+    background: transparent;
+  }
+  
+  :deep(.el-tree-node) {
+    margin-bottom: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid #e9ecef;
+  }
+  
+  :deep(.el-tree-node__content) {
+    height: auto !important;
+    padding: 8px !important;
+    min-height: auto;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    background: transparent;
+    border-radius: 0;
+    margin-bottom: 0;
+    position: relative;
+  }
+  
+  :deep(.el-tree-node__expand-icon) {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 4px;
+    margin-right: 0;
+    flex-shrink: 0;
+    z-index: 2;
+  }
+  
+  :deep(.el-tree-node__label) {
+    display: none; /* 隐藏原生标签，使用自定义的 */
+  }
+  
+  /* 自定义树节点样式 */
+  .tree-node {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 32px; /* 左侧留出展开图标空间 */
+    min-width: 0;
+    gap: 12px;
+  }
+  
+  .node-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    flex-wrap: nowrap;
+    padding: 8px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .node-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 500;
+    color: #495057;
+  }
+  
+  .folder-icon,
+  .file-icon {
+    flex-shrink: 0;
+    margin-right: 8px;
+    font-size: 16px;
+  }
+  
+  .folder-icon {
+    color: #ffc107;
+  }
+  
+  .file-icon {
+    color: #17a2b8;
+  }
+  
+  .node-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 8px;
+  }
+  
+  .node-actions .el-button {
+    font-size: 11px;
+    padding: 6px 12px;
+    flex: 1;
+    min-width: 0;
+    height: 32px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  
+  /* 文件节点按钮样式 */
+  .node-actions .el-button--primary {
+    background: #007bff;
+    border-color: #007bff;
+  }
+  
+  .node-actions .el-button--warning {
+    background: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+  }
+  
+  .node-actions .el-button--danger {
+    background: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .node-actions .el-button--success {
+    background: #28a745;
+    border-color: #28a745;
+  }
+  
+  .search-results .docs-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .card-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .card-actions .el-button {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .doc-list-container {
+    padding: 12px;
+  }
+  
+  .list-header h2 {
+    font-size: 18px;
+  }
+  
+  .header-actions {
+    gap: 6px;
+  }
+  
+  .header-actions .el-button {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  
+  .directory-tree {
+    padding: 8px;
+  }
+  
+  :deep(.el-tree-node) {
+    margin-bottom: 10px;
+    padding: 6px;
+  }
+  
+  :deep(.el-tree-node__content) {
+    padding: 6px !important;
+  }
+  
+  :deep(.el-tree-node__expand-icon) {
+    top: 6px;
+    left: 6px;
+    padding: 2px;
+  }
+  
+  .tree-node {
+    padding-left: 28px; /* 减少左侧空间 */
+    gap: 10px;
+  }
+  
+  .node-content {
+    padding: 6px;
+  }
+  
+  .node-label {
+    font-size: 13px;
+  }
+  
+  .folder-icon,
+  .file-icon {
+    font-size: 14px;
+    margin-right: 6px;
+  }
+  
+  .node-actions {
+    gap: 6px;
+    padding: 0 6px;
+  }
+  
+  .node-actions .el-button {
+    font-size: 10px;
+    padding: 5px 8px;
+    height: 28px;
+    border-radius: 4px;
+  }
+  
+  .card-actions .el-button {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+}
 </style>

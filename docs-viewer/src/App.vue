@@ -7,16 +7,6 @@
           <div class="logo-section" @click="$router.push('/')">
             <img src="/images/logo.png" alt="几何原本" class="logo-image" />
           </div>
-          <div class="header-search">
-            <el-input
-              v-model="searchQuery"
-              placeholder="搜索文档..."
-              :prefix-icon="Search"
-              clearable
-              @keyup.enter="performSearch"
-              style="width: 300px"
-            />
-          </div>
         </div>
       </el-header>
 
@@ -114,18 +104,6 @@ export default {
       router.push(`/doc/${encodeURIComponent(path)}`)
     }
 
-    const performSearch = async () => {
-      if (searchQuery.value.trim()) {
-        try {
-          const response = await axios.get(`/api/docs/flat?search=${encodeURIComponent(searchQuery.value)}`)
-          // 可以在这里实现搜索结果的显示
-          console.log('搜索结果:', response.data)
-        } catch (error) {
-          console.error('搜索失败:', error)
-        }
-      }
-    }
-
     onMounted(() => {
       loadDocs()
     })
@@ -139,7 +117,6 @@ export default {
       activeMenu,
       handleNodeClick,
       handleMenuSelect,
-      performSearch,
       Search
     }
   }
@@ -205,26 +182,6 @@ export default {
   font-weight: 600;
   color: #1e2328;
   letter-spacing: -0.02em;
-}
-
-.header-search .el-input {
-  border-radius: 8px;
-}
-
-.header-search .el-input__wrapper {
-  background: #f4f5f8;
-  border: 1px solid #e1e5e9;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.header-search .el-input__wrapper:hover {
-  border-color: #29abc1;
-}
-
-.header-search .el-input__wrapper.is-focus {
-  border-color: #29abc1;
-  box-shadow: 0 0 0 3px rgba(41, 171, 193, 0.1);
 }
 
 .main-container {
@@ -371,24 +328,20 @@ export default {
   }
   
   .sidebar {
+    display: none !important;
+  }
+  
+  .main-container {
+    flex-direction: column;
+  }
+  
+  .app-main {
     width: 100% !important;
+    margin-left: 0 !important;
   }
   
   .app-title {
     font-size: 18px;
-  }
-  
-  .sidebar-content {
-    padding: 16px 0;
-  }
-  
-  .sidebar-title {
-    padding: 0 16px 12px;
-    font-size: 13px;
-  }
-  
-  .doc-tree {
-    padding: 0 12px;
   }
 }
 
