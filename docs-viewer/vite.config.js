@@ -2,7 +2,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-  // 移除 base 配置，因为nginx直接代理到根路径
+  // 设置 base 路径为 /docs/，静态资源将部署在此路径下
+  base: '/docs/',
   plugins: [vue()],
   server: {
     port: 3007,
