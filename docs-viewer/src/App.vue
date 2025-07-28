@@ -86,7 +86,7 @@ export default {
 
     const loadDocs = async () => {
       try {
-        const response = await axios.get('/api/docs')
+        const response = await axios.get('/docs/api/docs')
         docs.value = response.data
         treeData.value = response.data
       } catch (error) {

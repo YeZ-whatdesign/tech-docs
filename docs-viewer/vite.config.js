@@ -2,14 +2,15 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-  base: '/docs/',
+  // 移除 base 配置，因为nginx直接代理到根路径
   plugins: [vue()],
   server: {
     port: 3007,
     proxy: {
-      '/api': {
+      '/docs/api': {
         target: 'http://localhost:3006',
-        changeOrigin: true
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/docs\/api/, '/api')
       }
     }
   },

@@ -171,7 +171,7 @@ export default {
       if (!docPath) return
 
       try {
-        const response = await axios.get(`/api/docs/${encodeURIComponent(docPath)}`)
+        const response = await axios.get(`/docs/api/docs/${encodeURIComponent(docPath)}`)
         const doc = response.data
         
         docContent.value = doc.content

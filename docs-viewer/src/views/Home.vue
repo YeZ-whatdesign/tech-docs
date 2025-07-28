@@ -100,7 +100,7 @@ export default {
     const loadDocs = async () => {
       try {
         // 使用扁平化API获取所有文档
-        const response = await axios.get('/api/docs/flat')
+        const response = await axios.get('/docs/api/docs/flat')
         docs.value = response.data
       } catch (error) {
         console.error('加载文档列表失败:', error)
