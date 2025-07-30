@@ -95,7 +95,7 @@ const handleLogin = async () => {
     await loginForm.value.validate()
     loading.value = true
     
-    const response = await axios.post('/api/auth/login', {
+    const response = await axios.post('/docs/api/auth/login', {
       username: loginData.username,
       password: loginData.password,
       rememberMe: loginData.rememberMe

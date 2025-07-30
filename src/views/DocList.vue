@@ -283,11 +283,11 @@ export default {
     const loadDocs = async () => {
       try {
         // 加载目录结构
-        const treeResponse = await axios.get('/api/docs')
+        const treeResponse = await axios.get('/docs/api/docs')
         treeData.value = treeResponse.data
         
         // 加载扁平化文档列表（用于搜索）
-        const flatResponse = await axios.get('/api/docs/flat')
+        const flatResponse = await axios.get('/docs/api/docs/flat')
         flatDocs.value = flatResponse.data
         filteredDocs.value = flatResponse.data
       } catch (error) {
@@ -345,7 +345,7 @@ export default {
         )
         
         const docPath = doc.path.replace(/\\/g, '/')
-        await axios.delete(`/api/docs/${encodeURIComponent(docPath)}`)
+        await axios.delete(`/docs/api/docs/info?path=${encodeURIComponent(docPath)}`)
         ElMessage.success('文档删除成功')
         loadDocs()
       } catch (error) {
@@ -372,7 +372,7 @@ export default {
           ? `${newDirForm.value.parent}/${newDirForm.value.name}`
           : newDirForm.value.name
 
-        await axios.post('/api/directories', { path: dirPath })
+        await axios.post('/docs/api/directories', { path: dirPath })
         ElMessage.success('目录创建成功')
         createDirDialogVisible.value = false
         loadDocs()
@@ -395,7 +395,7 @@ export default {
         )
         
         const dirPath = dirData.path.replace(/\\/g, '/')
-        await axios.delete(`/api/directories/${encodeURIComponent(dirPath)}`)
+        await axios.delete(`/docs/api/directories/${encodeURIComponent(dirPath)}`)
         ElMessage.success('目录删除成功')
         loadDocs()
       } catch (error) {
@@ -440,7 +440,7 @@ export default {
           ? `${moveDocForm.value.targetDir}/${moveDocForm.value.newFileName}.md`
           : `${moveDocForm.value.newFileName}.md`
           
-        await axios.post('/api/docs/move', {
+        await axios.post('/docs/api/docs/move', {
           sourcePath: moveDocForm.value.currentPath,
           targetPath: targetPath
         })

@@ -288,9 +288,9 @@ app.post('/api/docs', async (req, res) => {
 })
 
 // 删除文档
-app.delete('/api/docs/:path', async (req, res) => {
+app.delete('/api/docs/info', async (req, res) => {
   try {
-    const docPath = decodeURIComponent(req.params.path)
+    const docPath = decodeURIComponent(req.query.path)
     const filePath = path.join(DOCS_DIR, docPath)
     
     // 安全检查

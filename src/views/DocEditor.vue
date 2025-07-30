@@ -168,7 +168,7 @@ export default {
     const loadDoc = async () => {
       if (props.path) {
         try {
-          const response = await axios.get(`/api/docs/${encodeURIComponent(props.path)}`)
+          const response = await axios.get(`/docs/api/docs/info?path=${encodeURIComponent(props.path)}`)
           content.value = response.data.content
           fileName.value = response.data.path || props.path
           
@@ -220,7 +220,7 @@ export default {
         // 使用提取的文档标题，如果没有则使用文件名
         const title = documentTitle.value || docPath.split('/').pop().replace('.md', '')
         
-        await axios.post('/api/docs', {
+        await axios.post('/docs/api/docs', {
           path: docPath,
           content: content.value,
           title: title
