@@ -147,9 +147,9 @@ app.get('/api/docs/flat', async (req, res) => {
 })
 
 // 获取单个文档
-app.get('/api/docs/:path', async (req, res) => {
+app.get('/api/docs/info', async (req, res) => {
   try {
-    const docPath = decodeURIComponent(req.params.path)
+    const docPath = decodeURIComponent(req.query.path)
     const filePath = path.join(DOCS_DIR, docPath)
     
     // 安全检查，防止路径遍历攻击
