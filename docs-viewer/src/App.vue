@@ -4,7 +4,7 @@
       <!-- 顶部导航 -->
       <el-header class="app-header">
         <div class="header-content">
-          <div class="logo-section" @click="$router.push('/')">
+          <div class="logo-section" @click="$router.push('/docs')">
             <img src="/images/logo.png" alt="几何原本" class="logo-image" />
           </div>
         </div>

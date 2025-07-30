@@ -3,7 +3,7 @@
     <div class="doc-header">
       <div class="doc-breadcrumb">
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item @click="$router.push('/')">
+          <el-breadcrumb-item @click="$router.push('/docs')">
             <el-icon><House /></el-icon>
             首页
           </el-breadcrumb-item>
