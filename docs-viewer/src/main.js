@@ -8,8 +8,8 @@ import Home from './views/Home.vue'
 import DocView from './views/DocView.vue'
 
 const routes = [
-  { path: '/', component: Home },
-  { path: '/doc/:path', component: DocView, props: true }
+  { path: '/docs/', component: Home },
+  { path: '/docs/doc/:path', component: DocView, props: true }
 ]
 
 const router = createRouter({
